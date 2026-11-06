@@ -1413,7 +1413,10 @@ int mbedtls_x509_crt_parse(mbedtls_x509_crt *chain,
     /*
      * Check for valid input
      */
-    if (chain == NULL || buf == NULL) {
+    if (chain == NULL) {
+        return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
+    }
+    if (buf == NULL) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
     }
 
@@ -1422,9 +1425,12 @@ int mbedtls_x509_crt_parse(mbedtls_x509_crt *chain,
      * one or more PEM certificates.
      */
 #if defined(MBEDTLS_PEM_PARSE_C)
-    if (buflen != 0 && buf[buflen - 1] == '\0' &&
-        strstr((const char *) buf, "-----BEGIN CERTIFICATE-----") != NULL) {
-        buf_format = MBEDTLS_X509_FORMAT_PEM;
+    {
+        const int nul_terminated = buflen != 0 && buf[buflen - 1] == '\0';
+        if (nul_terminated &&
+            strstr((const char *) buf, "-----BEGIN CERTIFICATE-----") != NULL) {
+            buf_format = MBEDTLS_X509_FORMAT_PEM;
+        }
     }
 
     if (buf_format == MBEDTLS_X509_FORMAT_DER) {
