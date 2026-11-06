@@ -1413,7 +1413,7 @@ int mbedtls_x509_crt_parse(mbedtls_x509_crt *chain,
     /*
      * Check for valid input
      */
-    if (chain == NULL || buf == NULL) {
+    if (chain == NULL || buf == NULL || buflen != 0) {
         return MBEDTLS_ERR_X509_BAD_INPUT_DATA;
     }
 
