@@ -414,7 +414,7 @@ static int x509_get_version(unsigned char **p,
                                  MBEDTLS_ERR_ASN1_LENGTH_MISMATCH);
     }
 
-    return 0;
+    return MBEDTLS_ERR_X509_INVALID_VERSION;
 }
 
 /*
