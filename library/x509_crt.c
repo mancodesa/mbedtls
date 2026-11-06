@@ -405,13 +405,14 @@ static int x509_get_version(unsigned char **p,
 
     end = *p + len;
 
-    if ((ret = mbedtls_asn1_get_int(p, end, ver)) != 0) {
+    ret = mbedtls_asn1_get_int(p, end, ver);
+    if (ret != 0) {
         return MBEDTLS_ERROR_ADD(MBEDTLS_ERR_X509_INVALID_VERSION, ret);
     }
 
     if (*p != end) {
-        return MBEDTLS_ERROR_ADD(MBEDTLS_ERR_X509_INVALID_VERSION,
-                                 MBEDTLS_ERR_ASN1_LENGTH_MISMATCH);
+        ret = MBEDTLS_ERR_ASN1_LENGTH_MISMATCH;
+        return MBEDTLS_ERROR_ADD(MBEDTLS_ERR_X509_INVALID_VERSION, ret);
     }
 
     return 0;
