@@ -124,7 +124,8 @@ static int check_fd(int fd, int for_select)
      * that are strictly less than FD_SETSIZE. This is a limitation of the
      * fd_set type. Error out early, because attempting to call FD_SET on a
      * large file descriptor is a buffer overflow on typical platforms. */
-    if (for_select && fd >= FD_SETSIZE) {
+    const int beyond_fd_set = for_select && fd >= FD_SETSIZE;
+    if (beyond_fd_set) {
         return MBEDTLS_ERR_NET_POLL_FAILED;
     }
 #endif
