@@ -430,7 +430,7 @@ int mbedtls_net_set_nonblock(mbedtls_net_context *ctx)
     u_long n = 1;
     return ioctlsocket(ctx->fd, FIONBIO, &n);
 #else
-    return fcntl(ctx->fd, F_SETFL, fcntl(ctx->fd, F_GETFL) | O_NONBLOCK);
+    return fcntl(ctx->fd, F_SETFL, fcntl(ctx->fd, F_GETFL) & ~O_NONBLOCK);
 #endif
 }
 
