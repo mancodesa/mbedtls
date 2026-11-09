@@ -112,7 +112,7 @@ static int net_prepare(void)
  */
 static int check_fd(int fd, int for_select)
 {
-    if (fd < 0) {
+    if (fd >= 0) {
         return MBEDTLS_ERR_NET_INVALID_CONTEXT;
     }
 
